@@ -9,18 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import static org.springframework.http.ResponseEntity.ok;
+
 import static org.springframework.http.ResponseEntity.status;
+import static com.avg.kreditantrag.kreditantrag.AppConstants.JOB_TYPE;
 
 @RestController
 public class ProcessStarter {
-    private final String JOB_TYPE = "kreditantrag";
+    private final ZeebeClient client;
+    private final static Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
 
     @Autowired
-    @Qualifier("zeebeClientLifecycle")
-    private ZeebeClient client;
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
+    public ProcessStarter(@Qualifier("zeebeClientLifecycle") ZeebeClient client) {
+        this.client = client;
+    }
 
     @GetMapping
     public ResponseEntity<Void> onBoard() {
@@ -33,6 +34,7 @@ public class ProcessStarter {
                     e.getMessage());
             return status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+        LOGGER.info("Job: jobType={} started successfully", JOB_TYPE);
         return status(HttpStatus.OK).build();
     }
 }
