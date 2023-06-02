@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>20</java.version>
-		<zeebe.version>8.0.8</zeebe.version>
+		<zeebe.version>8.1.9</zeebe.version>
 	</properties>
 
 	<dependencies>
