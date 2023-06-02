@@ -16,8 +16,8 @@ import static org.springframework.http.ResponseEntity.status;
 public class ProcessStarter {
     private final String JOB_TYPE = "kreditantrag";
 
-    @Qualifier("zeebeClientLifecycle")
     @Autowired
+    @Qualifier("zeebeClientLifecycle")
     private ZeebeClient client;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);

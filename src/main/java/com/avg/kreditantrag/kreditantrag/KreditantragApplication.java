@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableZeebeClient
-@ZeebeDeployment(resources = "classpath:testProcess.bpmn")
+@ZeebeDeployment(resources = "classpath*:/model/*.bpmn")
 public class KreditantragApplication {
 
     public static void main(String... args) {
