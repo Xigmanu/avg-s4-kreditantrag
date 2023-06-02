@@ -12,7 +12,7 @@
 	<artifactId>kreditantrag</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kreditantrag</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Student project with Camunda</description>
 
 	<properties>
 		<java.version>20</java.version>
