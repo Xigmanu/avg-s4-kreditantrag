@@ -1,4 +1,4 @@
-package com.avg.kreditantrag.kreditantrag;
+package com.avg.kreditantrag;
 
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.ZeebeClientBuilder;
@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class AppConfig {
-    public static final String JOB_TYPE = "kreditantrag";
 
     @Value("${zeebe.client.cloud.clusterId}")
     private String clusterId;
