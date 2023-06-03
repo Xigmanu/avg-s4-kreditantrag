@@ -1,3 +1,2 @@
-1. RESTful API to retrieve data from the jso-server (?)
+1. Implement caching for OkHttpClient to reduce unnecessary data transfer
 2. Write handlers to the service tasks
-3. Define spring profiles to run either localy(Docker) or via cloud(SaaS)
