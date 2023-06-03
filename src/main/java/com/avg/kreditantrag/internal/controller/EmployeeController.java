@@ -1,9 +1,9 @@
-package com.avg.kreditantrag.kreditantrag.internal.controller;
+package com.avg.kreditantrag.internal.controller;
 
-import com.avg.kreditantrag.kreditantrag.KreditantragApplication;
-import com.avg.kreditantrag.kreditantrag.internal.entity.Employee;
-import com.avg.kreditantrag.kreditantrag.internal.service.EmployeeService;
-import com.avg.kreditantrag.kreditantrag.internal.service.HttpStatus;
+import com.avg.kreditantrag.KreditantragApplication;
+import com.avg.kreditantrag.internal.entity.Employee;
+import com.avg.kreditantrag.internal.service.EmployeeService;
+import com.avg.kreditantrag.internal.service.HttpStatus;
 import com.squareup.okhttp.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
-import static com.avg.kreditantrag.kreditantrag.internal.helper.JsonMapper.deserialize;
+import static com.avg.kreditantrag.internal.helper.JsonMapper.deserialize;
 
 @Controller
 public class EmployeeController {

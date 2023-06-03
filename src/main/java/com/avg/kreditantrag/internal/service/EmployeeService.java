@@ -1,7 +1,7 @@
-package com.avg.kreditantrag.kreditantrag.internal.service;
+package com.avg.kreditantrag.internal.service;
 
-import com.avg.kreditantrag.kreditantrag.KreditantragApplication;
-import com.avg.kreditantrag.kreditantrag.internal.entity.Employee;
+import com.avg.kreditantrag.KreditantragApplication;
+import com.avg.kreditantrag.internal.entity.Employee;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
 import org.slf4j.Logger;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-import static com.avg.kreditantrag.kreditantrag.internal.helper.JsonMapper.serialize;
-import static com.avg.kreditantrag.kreditantrag.internal.helper.UrlHelper.getUrl;
+import static com.avg.kreditantrag.internal.helper.JsonMapper.serialize;
+import static com.avg.kreditantrag.internal.helper.UrlHelper.getUrl;
 
 @Service
 public class EmployeeService implements KreditService {

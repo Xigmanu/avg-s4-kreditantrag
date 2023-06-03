@@ -1,4 +1,4 @@
-package com.avg.kreditantrag.kreditantrag.internal.entity;
+package com.avg.kreditantrag.internal.entity;
 
 import lombok.Builder;
 import lombok.Getter;

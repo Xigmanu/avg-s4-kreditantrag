@@ -1,4 +1,4 @@
-package com.avg.kreditantrag.kreditantrag.internal.helper;
+package com.avg.kreditantrag.internal.helper;
 
 public class UrlHelper {
     private static final String BASE_URI = "http://localhost:3000";

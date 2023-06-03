@@ -1,4 +1,4 @@
-package com.avg.kreditantrag.kreditantrag;
+package com.avg.kreditantrag;
 
 import io.camunda.zeebe.spring.client.EnableZeebeClient;
 import io.camunda.zeebe.spring.client.annotation.Deployment;

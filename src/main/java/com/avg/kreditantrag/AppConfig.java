@@ -1,4 +1,4 @@
-package com.avg.kreditantrag.kreditantrag;
+package com.avg.kreditantrag;
 
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.ZeebeClientBuilder;

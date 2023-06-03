@@ -1,4 +1,4 @@
-package com.avg.kreditantrag.kreditantrag.internal.service;
+package com.avg.kreditantrag.internal.service;
 
 public enum HttpStatus {
     CREATED(201),

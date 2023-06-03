@@ -1,4 +1,4 @@
-package com.avg.kreditantrag.kreditantrag.internal.service;
+package com.avg.kreditantrag.internal.service;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -8,7 +8,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-import static com.avg.kreditantrag.kreditantrag.internal.helper.UrlHelper.getUrl;
+import static com.avg.kreditantrag.internal.helper.UrlHelper.getUrl;
 
 public interface KreditService {
     default Response getGetResponse(String url, OkHttpClient httpClient) throws IOException {

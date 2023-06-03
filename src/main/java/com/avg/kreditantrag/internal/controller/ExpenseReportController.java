@@ -1,9 +1,9 @@
-package com.avg.kreditantrag.kreditantrag.internal.controller;
+package com.avg.kreditantrag.internal.controller;
 
-import com.avg.kreditantrag.kreditantrag.KreditantragApplication;
-import com.avg.kreditantrag.kreditantrag.internal.entity.ExpenseReport;
-import com.avg.kreditantrag.kreditantrag.internal.service.ExpenseReportService;
-import com.avg.kreditantrag.kreditantrag.internal.service.HttpStatus;
+import com.avg.kreditantrag.KreditantragApplication;
+import com.avg.kreditantrag.internal.entity.ExpenseReport;
+import com.avg.kreditantrag.internal.service.ExpenseReportService;
+import com.avg.kreditantrag.internal.service.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
