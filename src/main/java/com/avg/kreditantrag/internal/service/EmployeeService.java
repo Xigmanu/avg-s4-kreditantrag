@@ -5,6 +5,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,8 +18,9 @@ public class EmployeeService implements KreditService {
     private static final String ENDPOINT = "employees";
     private final OkHttpClient httpClient; //TODO Implement caching to avoid unnecessary network overload
 
-    public EmployeeService() {
-        httpClient = new OkHttpClient();
+    @Autowired
+    public EmployeeService(OkHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     @Override

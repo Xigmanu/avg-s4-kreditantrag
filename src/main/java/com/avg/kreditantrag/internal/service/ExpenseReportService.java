@@ -5,6 +5,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,8 +18,9 @@ public class ExpenseReportService implements KreditService{
     private final String ENDPOINT = "expense_reports";
     private final OkHttpClient httpClient;
 
-    public ExpenseReportService() {
-        httpClient = new OkHttpClient();
+    @Autowired
+    public ExpenseReportService(OkHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     @Override
