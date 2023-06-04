@@ -10,12 +10,11 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 import static com.avg.kreditantrag.internal.helper.JsonMapper.serialize;
-import static com.avg.kreditantrag.internal.helper.UrlHelper.getUrl;
 
 @Service
 public class EmployeeService implements KreditService {
-    private static final String ENDPOINT = "employees";
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
+    private static final String ENDPOINT = "employees";
     private final OkHttpClient httpClient; //TODO Implement caching to avoid unnecessary network overload
 
     public EmployeeService() {
@@ -25,12 +24,18 @@ public class EmployeeService implements KreditService {
     @Override
     public Response getById(int id) throws IOException {
         LOGGER.info("EmployeeService: getById: id={}", id);
-        return getGetResponse(getUrl(ENDPOINT, id), httpClient);
+        return getGetResponse(ENDPOINT,
+                id,
+                null,
+                null,
+                httpClient);
     }
 
     @Override
     public Response create(Object employee) throws IOException {
         LOGGER.info("EmployeeService: create: employee={}", employee);
-        return getPostResponse(ENDPOINT, serialize(employee), httpClient);
+        return getPostResponse(ENDPOINT,
+                serialize(employee),
+                httpClient);
     }
 }
