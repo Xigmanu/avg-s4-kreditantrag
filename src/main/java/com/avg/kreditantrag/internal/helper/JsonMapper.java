@@ -11,12 +11,12 @@ public class JsonMapper {
     public static String serialize(Object objToSerialize) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String serializedObject = mapper.writeValueAsString(objToSerialize);
-        LOGGER.debug("JsonMapper: serialize: objectToSerialize={}\nSerialized JSON: {}", objToSerialize, serializedObject);
+        LOGGER.debug("JsonMapper: serialize: objectToSerialize={}", objToSerialize);
         return serializedObject;
     }
     public static<T> T deserialize(String json, Class<T> valueType) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        LOGGER.debug("JsonMapper: deserialize: jsonString={}, valueType={}", json, valueType.getSimpleName());
+        LOGGER.debug("JsonMapper: deserialize: valueType={}", valueType.getSimpleName());
         return mapper.readValue(json, valueType);
     }
 }
