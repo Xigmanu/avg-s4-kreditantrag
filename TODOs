@@ -1,2 +1,2 @@
-1. Implement caching for OkHttpClient to reduce unnecessary data transfer
-2. Write handlers to the service tasks
+1. Implement webhooks to send messages to another service
+2. Write handlers for service tasks
