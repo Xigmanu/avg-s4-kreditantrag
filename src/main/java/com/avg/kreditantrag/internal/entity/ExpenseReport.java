@@ -4,25 +4,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Date;
-
 @Builder
 @Getter
 @ToString
 @SuppressWarnings("unused") // Used for de-/serialization and for Lombok
 public final class ExpenseReport {
-    private int employeeId;
-    private Date date;
+    private int employee_id;
+    private String date;
     private double sum;
     private String description;
 
     public ExpenseReport() {}
     private ExpenseReport(
             int employeeId,
-            Date date,
+            String date,
             double sum,
             String description) {
-        this.employeeId = employeeId;
+        this.employee_id = employeeId;
         this.date = date;
         this.sum = sum;
         this.description = description;
