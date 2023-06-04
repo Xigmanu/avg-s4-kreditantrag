@@ -11,18 +11,18 @@ import java.util.Date;
 @ToString
 @SuppressWarnings("unused") // Used for de-/serialization and for Lombok
 public final class ExpenseReport {
-    private Employee employee;
+    private int employeeId;
     private Date date;
     private double sum;
     private String description;
 
     public ExpenseReport() {}
     private ExpenseReport(
-            Employee employee,
+            int employeeId,
             Date date,
             double sum,
             String description) {
-        this.employee = employee;
+        this.employeeId = employeeId;
         this.date = date;
         this.sum = sum;
         this.description = description;
