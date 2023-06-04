@@ -23,12 +23,14 @@ public class ExpenseReportService implements KreditService{
         httpClient = new OkHttpClient();
     }
 
+    @Override
     public Response getById(int id) throws IOException {
         LOGGER.info("ExpenseReportService: getById: id={}", id);
         return getGetResponse(getUrl(ENDPOINT, id), httpClient);
     }
 
-    public Response create(ExpenseReport report) throws IOException {
+    @Override
+    public Response create(Object report) throws IOException {
         LOGGER.info("ExpenseReportService: create: report={}", report);
         return getPostResponse(ENDPOINT, serialize(report), httpClient);
     }

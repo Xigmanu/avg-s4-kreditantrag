@@ -32,4 +32,7 @@ public interface KreditService {
 
         return httpClient.newCall(request).execute();
     }
+
+    Response getById(int id) throws IOException;
+    Response create(Object obj) throws IOException;
 }
