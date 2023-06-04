@@ -6,6 +6,8 @@ public class UrlHelper {
         return String.format("%s/%s%s",
                 BASE_URI,
                 endpoint,
-                pathVariable != null ? "/" + pathVariable : "");
+                pathVariable != null
+                        ? "/" + pathVariable
+                        : "");
     }
 }

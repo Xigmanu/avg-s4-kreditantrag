@@ -34,7 +34,7 @@ public class EmployeeController {
                 return null;
             }
             String json = response.body().string();
-            LOGGER.info("EmployeeController: getById: response={}", json);
+            LOGGER.info("EmployeeController: getById: responseCode=[{}]", response.code());
 
             return deserialize(json, Employee.class);
         } catch (IOException ioe) {
@@ -46,6 +46,7 @@ public class EmployeeController {
 
     public HttpStatus create(Employee employee) {
         LOGGER.info("EmployeeController: create: employee={}", employee);
+
         try {
             if (getById(employee.getId()) != null) {
                 LOGGER.info("EmployeeController: create: An employee with the id [{}] already exists", employee.getId());
