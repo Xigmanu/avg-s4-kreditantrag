@@ -14,14 +14,13 @@ import static com.avg.kreditantrag.internal.helper.UrlHelper.getUrl;
 
 @Service
 public class EmployeeService implements KreditService {
+    private static final String ENDPOINT = "employees";
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
     private final OkHttpClient httpClient; //TODO Implement caching to avoid unnecessary network overload
 
     public EmployeeService() {
         httpClient = new OkHttpClient();
     }
-
-    public static final String ENDPOINT = "employees";
 
     @Override
     public Response getById(int id) throws IOException {
