@@ -19,7 +19,7 @@ import static com.avg.kreditantrag.internal.helper.JsonMapper.serialize;
 public class EmployeeService implements KreditService {
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
     private static final String ENDPOINT = "employees";
-    private final OkHttpClient httpClient; //TODO Implement caching to avoid unnecessary network overload
+    private final OkHttpClient httpClient;
 
     /**
      * Initializes a new instance of {@code EmployeeService} with an object of type
