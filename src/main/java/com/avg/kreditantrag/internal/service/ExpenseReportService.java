@@ -12,12 +12,21 @@ import java.io.IOException;
 
 import static com.avg.kreditantrag.internal.helper.JsonMapper.serialize;
 
+/**
+ * A service class that sends HTTP requests to the target server to manage expense report data.
+ */
 @Service
 public class ExpenseReportService implements KreditService{
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
     private final String ENDPOINT = "expense_reports";
     private final OkHttpClient httpClient;
 
+    /**
+     * Initializes a new instance of {@code ExpenseReportService} with an object of type
+     * {@code OkHttpClient} as parameter that is injected.
+     *
+     * @param httpClient client that sends HTTP requests
+     */
     @Autowired
     public ExpenseReportService(OkHttpClient httpClient) {
         this.httpClient = httpClient;

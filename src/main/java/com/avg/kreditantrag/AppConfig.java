@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+/**
+ * A configuration class with bean methods.
+ */
 @Configuration
 public class AppConfig {
 
@@ -22,6 +25,12 @@ public class AppConfig {
     @Value("${zeebe.client.broker.gateway-address}")
     private String gatewayAddress;
 
+    /**
+     * A bean method that creates a new instance of {@code ZeebeClientBuilder} class
+     * configured for execution in Camunda cloud (SaaS)
+     *
+     * @return a new instance of {@code ZeebeClientBuilder}
+     */
     @Bean
     @Profile("cloud")
     public ZeebeClientBuilder zeebeClientBuilderCloud() {
@@ -31,6 +40,13 @@ public class AppConfig {
                 .withClientSecret(clientSecret)
                 .withRegion("dsm-1");
     }
+
+    /**
+     * A bean method that creates a new instance of {@code ZeebeClientBuilder} class
+     * configured for execution in self-managed environment.
+     *
+     * @return a new instance of {@code ZeebeClientBuilder}
+     */
     @Bean
     @Profile("self-managed")
     public ZeebeClientBuilder zeebeClientBuilderLocal() {

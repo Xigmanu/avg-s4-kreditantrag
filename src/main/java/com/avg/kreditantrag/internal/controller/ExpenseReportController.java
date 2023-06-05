@@ -16,16 +16,31 @@ import java.util.List;
 
 import static com.avg.kreditantrag.internal.helper.JsonMapper.deserialize;
 
+/**
+ * Controller class that communicates with the target server using HTTP requests to manage expense report data.
+ */
 @Controller
 public class ExpenseReportController {
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
     private final ExpenseReportService service;
 
+    /**
+     * Initializes a new instance of {@code ExpenseReportController} class with an injected instance
+     * of type {@code ExpenseReportService} as parameter.
+     *
+     * @param service service class with methods to send HTTP requests to the target server.
+     */
     @Autowired
     public ExpenseReportController(ExpenseReportService service) {
         this.service = service;
     }
 
+    /**
+     * Sends a GET request to the target server to retrieve expense report data.
+     *
+     * @param employeeId id of an employee
+     * @return a list with objects of type {@code ExpenseReport} class on success, else {@code null}
+     */
     public List<ExpenseReport> getReportsForEmployee(int employeeId) {
         LOGGER.info("ExpenseReportController: getReportsForEmployee: employeeId={}", employeeId);
 
@@ -45,6 +60,13 @@ public class ExpenseReportController {
             return null;
         }
     }
+
+    /**
+     * Sends a POST request to the target server with new expense report data.
+     *
+     * @param report new expense report data to send to the server
+     * @return enum with an HTTP response code
+     */
     public HttpStatus create(ExpenseReport report) {
         LOGGER.info("ExpenseReportController: create: report={}", report);
         try {

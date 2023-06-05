@@ -14,19 +14,33 @@ import java.io.IOException;
 
 import static com.avg.kreditantrag.internal.helper.JsonMapper.deserialize;
 
+/**
+ * Controller class that communicates with the target server using HTTP requests to manage employee data.
+ */
 @Controller
 public class EmployeeController {
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
     private final EmployeeService service;
 
+    /**
+     * Initializes a new instance of {@code EmployeeController} class with an injected instance
+     * of type {@code EmployeeService} as parameter.
+     *
+     * @param service service class with methods to send HTTP requests to the target server.
+     */
     @Autowired
     public EmployeeController(EmployeeService service) {
         this.service = service;
     }
 
+    /**
+     * Sends a GET request to the target server to retrieve employee data.
+     *
+     * @param id id of an employee
+     * @return an instance of {@code Employee} class on success, else {@code null}
+     */
     public Employee getById(int id) {
         LOGGER.info("EmployeeController: getById: id={}", id);
-
         try {
             Response response = service.getById(id);
             if (response.code() == HttpStatus.NOT_FOUND.getCode()) {
@@ -44,6 +58,12 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Sends a POST request to the target server with new employee data.
+     *
+     * @param employee new employee data to send to the server
+     * @return enum with an HTTP response code
+     */
     public HttpStatus create(Employee employee) {
         LOGGER.info("EmployeeController: create: employee={}", employee);
 

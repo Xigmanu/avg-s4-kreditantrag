@@ -12,12 +12,21 @@ import java.io.IOException;
 
 import static com.avg.kreditantrag.internal.helper.JsonMapper.serialize;
 
+/**
+ * A service class that sends HTTP requests to the target server to manage employee data.
+ */
 @Service
 public class EmployeeService implements KreditService {
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
     private static final String ENDPOINT = "employees";
     private final OkHttpClient httpClient; //TODO Implement caching to avoid unnecessary network overload
 
+    /**
+     * Initializes a new instance of {@code EmployeeService} with an object of type
+     * {@code OkHttpClient} as parameter that is injected.
+     *
+     * @param httpClient client that sends HTTP requests
+     */
     @Autowired
     public EmployeeService(OkHttpClient httpClient) {
         this.httpClient = httpClient;

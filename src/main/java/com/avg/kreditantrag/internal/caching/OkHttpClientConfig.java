@@ -9,11 +9,20 @@ import org.springframework.context.annotation.Scope;
 import java.io.File;
 import java.util.Arrays;
 
+/**
+ * A configuration class for {@code OkHttpClient} with bean methods.
+ */
 @Configuration
 public class OkHttpClientConfig {
     private static final String CACHE_DIR = ".cache";
     private static final int MAX_SIZE = 128 * 1024; // 128 KiB
 
+    /**
+     * A bean method that creates a singleton instance of {@code OkHttpClient} class
+     * with and binds it to the cache.
+     *
+     * @return new singleton instance of {@code OkHttpClient} class
+     */
     @Bean
     @Scope("singleton")
     public OkHttpClient okHttpClient() {

@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+/**
+ * Interface containing methods for service classes to use in order to send HTTP requests to target server.
+ */
 public interface KreditService {
     default Response getGetResponse(String endpoint,
                                     Object pathVariable,
@@ -47,6 +50,21 @@ public interface KreditService {
         return httpClient.newCall(request).execute();
     }
 
+    /**
+     * Sends a GET request to retrieve data by its id.
+     *
+     * @param id id of data entry
+     * @return a response from the target server
+     * @throws IOException if a request fails
+     */
     Response getById(int id) throws IOException;
+
+    /**
+     * Sends a POST request with data in request body to the target server.
+     *
+     * @param obj data to send
+     * @return a response from the target server
+     * @throws IOException if a request fails
+     */
     Response create(Object obj) throws IOException;
 }

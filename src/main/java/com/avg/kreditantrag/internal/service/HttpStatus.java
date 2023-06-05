@@ -1,5 +1,8 @@
 package com.avg.kreditantrag.internal.service;
 
+/**
+ * Enum containing HTTP response codes.
+ */
 public enum HttpStatus {
     CREATED(201),
     NO_CONTENT(204),

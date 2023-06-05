@@ -1,5 +1,8 @@
 package com.avg.kreditantrag.internal.helper;
 
+/**
+ * A builder class that constructs a URL for HTTP requests.
+ */
 public class UrlBuilder {
     private static final String BASE_URI = "http://localhost:3000";
     private String endpoint;

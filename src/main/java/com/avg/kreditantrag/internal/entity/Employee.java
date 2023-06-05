@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * Entity class with employee data.
+ */
 @Getter
 @Builder
 @ToString
