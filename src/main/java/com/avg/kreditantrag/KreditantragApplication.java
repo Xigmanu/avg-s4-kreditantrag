@@ -34,7 +34,8 @@ public class KreditantragApplication {
 
     private static void clearDir(File directory) {
         File[] files = directory.listFiles();
-        if (files == null) {
+        assert files != null;
+        if (files.length == 0) {
             return;
         }
 
