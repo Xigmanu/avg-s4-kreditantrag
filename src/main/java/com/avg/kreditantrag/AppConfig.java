@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 public class AppConfig {
+    
+    @Value("${zeebe.client.cloud.region}")
+    private String region;
 
     @Value("${zeebe.client.cloud.clusterId}")
     private String clusterId;
@@ -38,7 +41,7 @@ public class AppConfig {
                 .withClusterId(clusterId)
                 .withClientId(clientId)
                 .withClientSecret(clientSecret)
-                .withRegion("dsm-1");
+                .withRegion(region);
     }
 
     /**
