@@ -7,14 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 import java.io.File;
-import java.util.Arrays;
 
 /**
  * A configuration class for {@code OkHttpClient} with bean methods.
  */
 @Configuration
 public class OkHttpClientConfig {
-    private static final String CACHE_DIR = ".cache";
+    public static final String CACHE_DIR = ".cache";
     private static final int MAX_SIZE = 128 * 1024; // 128 KiB
 
     /**
@@ -27,7 +26,7 @@ public class OkHttpClientConfig {
     @Scope("singleton")
     public OkHttpClient okHttpClient() {
         File httpCacheDir = new File(CACHE_DIR);
-        clearDir(httpCacheDir);
+
         Cache cache = new Cache(httpCacheDir, MAX_SIZE);
 
         OkHttpClient httpClient = new OkHttpClient();
@@ -35,21 +34,5 @@ public class OkHttpClientConfig {
         httpClient.setCache(cache);
 
         return httpClient;
-    }
-
-    private void clearDir(File directory) {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            return;
-        }
-
-        Arrays.stream(files)
-                .toList()
-                .forEach(file -> {
-            if (file.delete()) {
-                return;
-            }
-            throw new SecurityException();
-        });
     }
 }
