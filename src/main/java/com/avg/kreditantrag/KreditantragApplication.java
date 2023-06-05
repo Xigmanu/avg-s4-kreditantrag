@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-import static com.avg.kreditantrag.internal.caching.OkHttpClientConfig.CACHE_DIR;
+import static com.avg.kreditantrag.internal.caching.OkHttpClientConfig.CACHE_PATH;
 
 /**
  * Main class for spring application.
@@ -27,8 +27,8 @@ public class KreditantragApplication {
         SpringApplication.run(KreditantragApplication.class, args);
 
         LOGGER.info("Clearing HTTP cache");
-        if (Files.exists(Path.of(CACHE_DIR))) {
-            clearDir(new File(CACHE_DIR));
+        if (Files.exists(Path.of(CACHE_PATH))) {
+            clearDir(new File(CACHE_PATH));
         }
     }
 

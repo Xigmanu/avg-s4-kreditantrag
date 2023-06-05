@@ -13,7 +13,7 @@ import java.io.File;
  */
 @Configuration
 public class OkHttpClientConfig {
-    public static final String CACHE_DIR = ".cache";
+    public static final String CACHE_PATH = ".cache";
     private static final int MAX_SIZE = 128 * 1024; // 128 KiB
 
     /**
@@ -25,7 +25,7 @@ public class OkHttpClientConfig {
     @Bean
     @Scope("singleton")
     public OkHttpClient okHttpClient() {
-        File httpCacheDir = new File(CACHE_DIR);
+        File httpCacheDir = new File(CACHE_PATH);
 
         Cache cache = new Cache(httpCacheDir, MAX_SIZE);
 
