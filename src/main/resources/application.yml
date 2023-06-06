@@ -6,10 +6,10 @@ spring:
 zeebe:
   client:
     cloud:
-      region: dsm-1
-      clusterId: caab18cc-488e-48f9-8ca5-864951ead365
-      clientId: aqPhTk6PUZIZ2FTK2.-.9tK6IspbfGrA
-      clientSecret: lTE8rtFzuX33CLJqLE~cnFGdgwCYn~ufQYgUDXcqZy21tkoiFn6qzH9E22x.D0Wu
+      region: ###
+      clusterId: ###
+      clientId: ###
+      clientSecret: ###
 #<---------- Execution in self-managed environment ---------->
     broker:
       gateway-address: 127.0.0.1:26500
