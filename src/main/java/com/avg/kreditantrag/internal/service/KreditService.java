@@ -1,14 +1,11 @@
 package com.avg.kreditantrag.internal.service;
 
-import com.avg.kreditantrag.KreditantragApplication;
 import com.avg.kreditantrag.internal.helper.UrlBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
