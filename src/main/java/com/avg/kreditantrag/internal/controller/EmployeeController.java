@@ -79,7 +79,7 @@ public class EmployeeController {
                 LOGGER.info("EmployeeController: create: Successfully created an employee: {}", employee);
                 return HttpStatus.CREATED;
             } else {
-                LOGGER.warn("EmployeeController: create: Could not create an employee: {}", employee);
+                LOGGER.warn("EmployeeController: create: Could not create an employee: {}, code={}", employee, response.code());
                 return HttpStatus.BAD_REQUEST;
             }
         } catch (IOException ioe) {
