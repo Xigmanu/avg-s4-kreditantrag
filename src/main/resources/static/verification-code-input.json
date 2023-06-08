@@ -1,0 +1,48 @@
+{
+  "components": [
+    {
+      "text": "# Geben Sie die Verifizierungscode ein",
+      "type": "text",
+      "layout": {
+        "row": "Row_03qfuv2",
+        "columns": null
+      },
+      "id": "Field_0si6eb5"
+    },
+    {
+      "label": "Verifizierungcode:",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_02f2slb",
+        "columns": 4
+      },
+      "id": "Field_0u9utt1",
+      "key": "verificationCode",
+      "validate": {
+        "required": true,
+        "minLength": 6,
+        "maxLength": 6,
+        "pattern": "^\\d*$"
+      }
+    },
+
+    {
+      "action": "submit",
+      "label": "Senden",
+      "type": "button",
+      "layout": {
+        "row": "Row_0fif9dr",
+        "columns": 4
+      },
+      "id": "Field_0udgws4",
+      "key": "field_0bnau8x"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0nb3xfi",
+  "exporter": {
+    "name": "form-js (https://demo.bpmn.io)",
+    "version": "0.13.0"
+  },
+  "schemaVersion": 8
+}
