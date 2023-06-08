@@ -15,11 +15,16 @@ public final class Employee {
     private int id;
     private String prename;
     private String surname;
+    private String email;
 
     public Employee() { }
-    private Employee(int id, String prename, String surname) {
+    private Employee(int id,
+                     String prename,
+                     String surname,
+                     String email) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;
+        this.email = email;
     }
 }
