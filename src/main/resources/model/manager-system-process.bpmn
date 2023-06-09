@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="a3c2611" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0" camunda:diagramRelationId="bab4017a-55a4-4c5e-9b4d-f827db75ead5">
+  <bpmn:collaboration id="Collaboration_0qhl7bf">
+    <bpmn:participant id="Participant_169s591" name="Manager:in System" processRef="manager-process" />
+  </bpmn:collaboration>
+  <bpmn:process id="manager-process" name="Manager System Prozess" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:userTaskForm id="userTaskForm_15ov1ae">{
+  "components": [
+    {
+      "text": "## Genehmigung einer Spesenabrechnung\n\n###### Abrechnung:",
+      "type": "text",
+      "layout": {
+        "row": "Row_0n1dwoj",
+        "columns": null
+      },
+      "id": "Field_0m7t4u7"
+    },
+    {
+      "text": "={\n  \"Personennummer\": empId,\n  \"Datum\": date,\n  \"Beschreibung\": description,\n  \"Gesammtsumme\": reportSum\n}",
+      "type": "text",
+      "layout": {
+        "row": "Row_05w95ta",
+        "columns": null
+      },
+      "id": "Field_1auda7m"
+    },
+    {
+      "values": [
+        {
+          "label": "Ja",
+          "value": "true"
+        },
+        {
+          "label": "Nein",
+          "value": "false"
+        }
+      ],
+      "label": "Den Antrag genehmigen",
+      "type": "radio",
+      "layout": {
+        "row": "Row_12cnuuf",
+        "columns": null
+      },
+      "id": "Field_1o169u6",
+      "key": "approved",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "action": "submit",
+      "label": "Absenden",
+      "type": "button",
+      "layout": {
+        "row": "Row_0g5l8sx",
+        "columns": 4
+      },
+      "id": "Field_1ibqws6",
+      "key": "field_0knw4vt"
+    }
+  ],
+  "schemaVersion": 8,
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "a3c2611"
+  },
+  "type": "default",
+  "id": "manager-approval-form",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0"
+}</zeebe:userTaskForm>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="Event_0rtof6i" name="Manager Start">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=empId" target="empId" />
+          <zeebe:output source="=prename" target="prename" />
+          <zeebe:output source="=email" target="email" />
+          <zeebe:output source="=reportSum" target="reportSum" />
+          <zeebe:output source="=date" target="date" />
+          <zeebe:output source="=description" target="description" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1s3ph86</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_05l1wbv" messageRef="Message_20933ac" />
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_0x1jhlq" name="Genehmigung durch einen Manager">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="=empId" target="empId" />
+          <zeebe:input source="=date" target="date" />
+          <zeebe:input source="=reportSum" target="reportSum" />
+          <zeebe:input source="=description" target="description" />
+          <zeebe:output source="=approved" target="approved" />
+        </zeebe:ioMapping>
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:userTaskForm_15ov1ae" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1uua87p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qqpliy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="Activity_1livfhm" name="Manager benachrichtigen">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-email-to-manager" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1s3ph86</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uua87p</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:exclusiveGateway id="Gateway_0zk37i0" name="genehmigt?">
+      <bpmn:incoming>Flow_0qqpliy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qkii9p</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1mjvozh</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="Activity_0dkxsq9" name="Eine Ablehnungs-E-Mail senden">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-manual-rejection-email" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1qkii9p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ja5grf</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:boundaryEvent id="Event_1brvs1e" name="7 Tage" attachedToRef="Activity_0x1jhlq">
+      <bpmn:outgoing>Flow_17nn9h2</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1nact99">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P7D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_1s3ph86" sourceRef="Event_0rtof6i" targetRef="Activity_1livfhm" />
+    <bpmn:sequenceFlow id="Flow_1uua87p" sourceRef="Activity_1livfhm" targetRef="Activity_0x1jhlq" />
+    <bpmn:sequenceFlow id="Flow_0qqpliy" sourceRef="Activity_0x1jhlq" targetRef="Gateway_0zk37i0" />
+    <bpmn:sequenceFlow id="Flow_1rtag7f" sourceRef="Activity_0t174o6" targetRef="Event_0flqpxa" />
+    <bpmn:sequenceFlow id="Flow_1qkii9p" name="nein" sourceRef="Gateway_0zk37i0" targetRef="Activity_0dkxsq9">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approved = "false"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_17nn9h2" sourceRef="Event_1brvs1e" targetRef="Activity_1q841en" />
+    <bpmn:sequenceFlow id="Flow_0boxo9q" sourceRef="Event_1j87krb" targetRef="Activity_1u2ebwl" />
+    <bpmn:sendTask id="Activity_1u2ebwl" name="Anfrage zur Wiedereinreichung">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-resubmission-request-email" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0boxo9q</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h3828e</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_1q841en" name="&#34;In Bearbeitung&#34; senden">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-in-process-email" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_17nn9h2</bpmn:incoming>
+    </bpmn:sendTask>
+    <bpmn:boundaryEvent id="Event_1j87krb" name="23 Tage" attachedToRef="Activity_1q841en">
+      <bpmn:outgoing>Flow_0boxo9q</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0r4ca36">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P23D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_0bb036k" name="Timeout End Event">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-timeout-end-message" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0h3828e</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0it9ruu" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_0k7857k" name="Abgelehnt End Event">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-rejection-end-message" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ja5grf</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1ru3oe9" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0h3828e" sourceRef="Activity_1u2ebwl" targetRef="Event_0bb036k" />
+    <bpmn:sequenceFlow id="Flow_0ja5grf" sourceRef="Activity_0dkxsq9" targetRef="Event_0k7857k" />
+    <bpmn:sequenceFlow id="Flow_1mjvozh" name="ja" sourceRef="Gateway_0zk37i0" targetRef="Activity_0t174o6">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approved = "true"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_0t174o6" name="Speseabrechnung speichern">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="expense-report-save" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1mjvozh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rtag7f</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0flqpxa" name="Genehmigt End Event">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-approval-end-message" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1rtag7f</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0o5ef5m" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_20933ac" name="NotifyTheManagerMessage" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0qhl7bf">
+      <bpmndi:BPMNShape id="Participant_169s591_di" bpmnElement="Participant_169s591" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1170" height="630" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rtof6i_di" bpmnElement="Event_0rtof6i">
+        <dc:Bounds x="212" y="442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="195" y="485" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0x1jhlq_di" bpmnElement="Activity_0x1jhlq">
+        <dc:Bounds x="490" y="420" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1livfhm_di" bpmnElement="Activity_1livfhm">
+        <dc:Bounds x="320" y="420" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0zk37i0_di" bpmnElement="Gateway_0zk37i0" isMarkerVisible="true">
+        <dc:Bounds x="665" y="435" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="721" y="450" width="58" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dkxsq9_di" bpmnElement="Activity_0dkxsq9">
+        <dc:Bounds x="840" y="530" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0r1lf46_di" bpmnElement="Activity_1u2ebwl">
+        <dc:Bounds x="550" y="100" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1q841en_di" bpmnElement="Activity_1q841en">
+        <dc:Bounds x="520" y="260" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0bb036k_di" bpmnElement="Event_0bb036k">
+        <dc:Bounds x="742" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="729" y="165" width="63" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0k7857k_di" bpmnElement="Event_0k7857k">
+        <dc:Bounds x="1072" y="552" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1055" y="595" width="72" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0z4y8za_di" bpmnElement="Activity_0t174o6">
+        <dc:Bounds x="770" y="310" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0flqpxa_di" bpmnElement="Event_0flqpxa">
+        <dc:Bounds x="982" y="332" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="962" y="375" width="77" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1j87krb_di" bpmnElement="Event_1j87krb">
+        <dc:Bounds x="582" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="620" y="253" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1brvs1e_di" bpmnElement="Event_1brvs1e">
+        <dc:Bounds x="552" y="402" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="593" y="413" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1s3ph86_di" bpmnElement="Flow_1s3ph86">
+        <di:waypoint x="248" y="460" />
+        <di:waypoint x="320" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uua87p_di" bpmnElement="Flow_1uua87p">
+        <di:waypoint x="420" y="460" />
+        <di:waypoint x="490" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qqpliy_di" bpmnElement="Flow_0qqpliy">
+        <di:waypoint x="590" y="460" />
+        <di:waypoint x="665" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rtag7f_di" bpmnElement="Flow_1rtag7f">
+        <di:waypoint x="870" y="350" />
+        <di:waypoint x="982" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qkii9p_di" bpmnElement="Flow_1qkii9p">
+        <di:waypoint x="690" y="485" />
+        <di:waypoint x="690" y="570" />
+        <di:waypoint x="840" y="570" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="695" y="529" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17nn9h2_di" bpmnElement="Flow_17nn9h2">
+        <di:waypoint x="570" y="402" />
+        <di:waypoint x="570" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0boxo9q_di" bpmnElement="Flow_0boxo9q">
+        <di:waypoint x="600" y="242" />
+        <di:waypoint x="600" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h3828e_di" bpmnElement="Flow_0h3828e">
+        <di:waypoint x="650" y="140" />
+        <di:waypoint x="742" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ja5grf_di" bpmnElement="Flow_0ja5grf">
+        <di:waypoint x="940" y="570" />
+        <di:waypoint x="1072" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mjvozh_di" bpmnElement="Flow_1mjvozh">
+        <di:waypoint x="690" y="435" />
+        <di:waypoint x="690" y="350" />
+        <di:waypoint x="770" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="701" y="390" width="9" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

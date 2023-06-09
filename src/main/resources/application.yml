@@ -1,0 +1,26 @@
+#<---------- `cloud` or `self-managed` ---------->
+spring:
+  profiles:
+    active: cloud
+#<---------- Execution in cloud environment ---------->
+zeebe.client:
+        cloud:
+          region: ###
+          clusterId: ###
+          clientId: ###
+          clientSecret: ###
+
+      #<---------- Execution in self-managed environment ---------->
+        broker:
+          gateway-address: 127.0.0.1:26500
+#<---------- Logging ---------->
+logging:
+  level:
+    root: info
+    com:
+      avg:
+      kreditantrag:
+        KreditantragApplication: debug
+#<---------- Server ---------->
+server:
+  port: 7667

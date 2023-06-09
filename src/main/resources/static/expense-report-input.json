@@ -1,0 +1,126 @@
+{
+  "components": [
+    {
+      "text": "# Formular für Spesenabrechnungen\n\n#### Füllen Sie alle Pflichtfelder aus",
+      "type": "text",
+      "layout": {
+        "row": "Row_17z0ca6",
+        "columns": null
+      },
+      "id": "Field_0rocx9d"
+    },
+    {
+      "label": "Personalnummer:",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1i70205",
+        "columns": 4
+      },
+      "id": "Field_11wbxip",
+      "key": "empId",
+      "validate": {
+        "required": true,
+        "minLength": 1,
+        "pattern": "^\\s*\\d+\\s*$"
+      }
+    },
+    {
+      "label": "Vorname",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_07dg773",
+        "columns": 6
+      },
+      "id": "Field_0zmpipk",
+      "key": "prename",
+      "validate": {
+        "required": true,
+        "minLength": 2,
+        "pattern": "^\\s*[A-Za-z'-]+\\s*$"
+      }
+    },
+    {
+      "label": "Nachname:",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_07dg773",
+        "columns": 6
+      },
+      "id": "Field_0w3ulvj",
+      "key": "surname",
+      "validate": {
+        "required": true,
+        "minLength": 2,
+        "pattern": "^\\s*[A-Za-z'-]+\\s*$"
+      },
+      "appearance": {}
+    },
+    {
+      "label": "Email:",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0t3phto",
+        "columns": 6
+      },
+      "id": "Field_0ya0r01",
+      "key": "email",
+      "validate": {
+        "required": true,
+        "validationType": "email"
+      }
+    },
+    {
+      "label": "Beschreibung der Ausgaben:",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0mywbis",
+        "columns": 12
+      },
+      "id": "Field_1ege5k7",
+      "key": "description",
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "label": "Gesamtsumme:",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0r97rvv",
+        "columns": 4
+      },
+      "id": "Field_1n7a97e",
+      "key": "reportSum",
+      "validate": {
+        "required": true,
+        "minLength": 1,
+        "pattern": "^\\s*?\\d+([.,]\\d{1,2})?\\s*$"
+      },
+      "appearance": {
+        "suffixAdorner": "€"
+      }
+    },
+    {
+      "action": "submit",
+      "label": "Senden",
+      "type": "button",
+      "layout": {
+        "row": "Row_0neywre",
+        "columns": 4
+      },
+      "id": "Field_0uw07mu",
+      "key": "field_1diepfw",
+      "conditional": {
+        "hide": "=any(persNr = null, \n   nachname = null,\n   email = null,\n   beschreibung = null,\n   summe = null)"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "expense-report-input",
+  "exporter": {
+    "name": "form-js (https://demo.bpmn.io)",
+    "version": "0.13.0"
+  },
+  "schemaVersion": 8
+}
