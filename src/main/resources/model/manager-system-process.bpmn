@@ -106,25 +106,11 @@
       <bpmn:incoming>Flow_1s3ph86</bpmn:incoming>
       <bpmn:outgoing>Flow_1uua87p</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:sendTask id="Activity_1bk3rcw" name="Eine Genehmigungs-E-Mail senden">
-      <bpmn:extensionElements>
-        <zeebe:taskDefinition type="send-manual-approval-email" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1rtag7f</bpmn:incoming>
-      <bpmn:outgoing>Flow_0tlf941</bpmn:outgoing>
-    </bpmn:sendTask>
     <bpmn:exclusiveGateway id="Gateway_0zk37i0" name="genehmigt?">
       <bpmn:incoming>Flow_0qqpliy</bpmn:incoming>
       <bpmn:outgoing>Flow_1qkii9p</bpmn:outgoing>
       <bpmn:outgoing>Flow_1mjvozh</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Activity_0t174o6" name="Speseabrechnung speichern">
-      <bpmn:extensionElements>
-        <zeebe:taskDefinition type="expense-report-save" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1mjvozh</bpmn:incoming>
-      <bpmn:outgoing>Flow_1rtag7f</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:sendTask id="Activity_0dkxsq9" name="Eine Ablehnungs-E-Mail senden">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="send-manual-rejection-email" />
@@ -141,7 +127,7 @@
     <bpmn:sequenceFlow id="Flow_1s3ph86" sourceRef="Event_0rtof6i" targetRef="Activity_1livfhm" />
     <bpmn:sequenceFlow id="Flow_1uua87p" sourceRef="Activity_1livfhm" targetRef="Activity_0x1jhlq" />
     <bpmn:sequenceFlow id="Flow_0qqpliy" sourceRef="Activity_0x1jhlq" targetRef="Gateway_0zk37i0" />
-    <bpmn:sequenceFlow id="Flow_1rtag7f" sourceRef="Activity_0t174o6" targetRef="Activity_1bk3rcw" />
+    <bpmn:sequenceFlow id="Flow_1rtag7f" sourceRef="Activity_0t174o6" targetRef="Event_0flqpxa" />
     <bpmn:sequenceFlow id="Flow_1qkii9p" name="nein" sourceRef="Gateway_0zk37i0" targetRef="Activity_0dkxsq9">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approved = "false"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -173,13 +159,6 @@
       <bpmn:incoming>Flow_0h3828e</bpmn:incoming>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0it9ruu" />
     </bpmn:endEvent>
-    <bpmn:endEvent id="Event_0flqpxa" name="Genehmigt End Event">
-      <bpmn:extensionElements>
-        <zeebe:taskDefinition type="send-approval-end-message" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0tlf941</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0o5ef5m" />
-    </bpmn:endEvent>
     <bpmn:endEvent id="Event_0k7857k" name="Abgelehnt End Event">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="send-rejection-end-message" />
@@ -188,11 +167,24 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_1ru3oe9" />
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0h3828e" sourceRef="Activity_1u2ebwl" targetRef="Event_0bb036k" />
-    <bpmn:sequenceFlow id="Flow_0tlf941" sourceRef="Activity_1bk3rcw" targetRef="Event_0flqpxa" />
     <bpmn:sequenceFlow id="Flow_0ja5grf" sourceRef="Activity_0dkxsq9" targetRef="Event_0k7857k" />
     <bpmn:sequenceFlow id="Flow_1mjvozh" name="ja" sourceRef="Gateway_0zk37i0" targetRef="Activity_0t174o6">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approved = "true"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_0t174o6" name="Speseabrechnung speichern">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="expense-report-save" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1mjvozh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rtag7f</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0flqpxa" name="Genehmigt End Event">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-approval-end-message" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1rtag7f</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0o5ef5m" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmn:message id="Message_20933ac" name="NotifyTheManagerMessage" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -215,19 +207,11 @@
         <dc:Bounds x="320" y="420" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1bk3rcw_di" bpmnElement="Activity_1bk3rcw">
-        <dc:Bounds x="1040" y="310" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0zk37i0_di" bpmnElement="Gateway_0zk37i0" isMarkerVisible="true">
         <dc:Bounds x="665" y="435" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="721" y="450" width="58" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0z4y8za_di" bpmnElement="Activity_0t174o6">
-        <dc:Bounds x="840" y="310" width="100" height="80" />
-        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0dkxsq9_di" bpmnElement="Activity_0dkxsq9">
         <dc:Bounds x="840" y="530" width="100" height="80" />
@@ -247,16 +231,20 @@
           <dc:Bounds x="729" y="165" width="63" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0flqpxa_di" bpmnElement="Event_0flqpxa">
-        <dc:Bounds x="1212" y="332" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1192" y="375" width="77" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0k7857k_di" bpmnElement="Event_0k7857k">
         <dc:Bounds x="1072" y="552" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1055" y="595" width="72" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0z4y8za_di" bpmnElement="Activity_0t174o6">
+        <dc:Bounds x="770" y="310" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0flqpxa_di" bpmnElement="Event_0flqpxa">
+        <dc:Bounds x="982" y="332" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="962" y="375" width="77" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1j87krb_di" bpmnElement="Event_1j87krb">
@@ -284,8 +272,8 @@
         <di:waypoint x="665" y="460" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1rtag7f_di" bpmnElement="Flow_1rtag7f">
-        <di:waypoint x="940" y="350" />
-        <di:waypoint x="1040" y="350" />
+        <di:waypoint x="870" y="350" />
+        <di:waypoint x="982" y="350" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1qkii9p_di" bpmnElement="Flow_1qkii9p">
         <di:waypoint x="690" y="485" />
@@ -307,10 +295,6 @@
         <di:waypoint x="650" y="140" />
         <di:waypoint x="742" y="140" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0tlf941_di" bpmnElement="Flow_0tlf941">
-        <di:waypoint x="1140" y="350" />
-        <di:waypoint x="1212" y="350" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ja5grf_di" bpmnElement="Flow_0ja5grf">
         <di:waypoint x="940" y="570" />
         <di:waypoint x="1072" y="570" />
@@ -318,7 +302,7 @@
       <bpmndi:BPMNEdge id="Flow_1mjvozh_di" bpmnElement="Flow_1mjvozh">
         <di:waypoint x="690" y="435" />
         <di:waypoint x="690" y="350" />
-        <di:waypoint x="840" y="350" />
+        <di:waypoint x="770" y="350" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="701" y="390" width="9" height="14" />
         </bpmndi:BPMNLabel>
