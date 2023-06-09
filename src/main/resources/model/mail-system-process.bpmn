@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="a3c2611" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0" camunda:diagramRelationId="069b1a3e-bc96-4489-b591-35354dd38756">
   <bpmn:collaboration id="Collaboration_0ral6at">
-    <bpmn:participant id="Participant_0am8hy0" name="Mailsystem" processRef="system-intern" />
+    <bpmn:participant id="Participant_0am8hy0" name="Mailsystem" processRef="system-mail" />
   </bpmn:collaboration>
   <bpmn:error id="Error_0qixzsn" name="Verification failed" errorCode="verification_failed" />
   <bpmn:error id="Error_0z61lzt" name="DbConnectionError" errorCode="db_connection_error" />
-  <bpmn:process id="system-intern" name="System intern" isExecutable="true">
+  <bpmn:process id="system-mail" name="Mail System" isExecutable="true">
     <bpmn:startEvent id="Event_05v13zm">
       <bpmn:extensionElements>
         <zeebe:ioMapping>
@@ -308,7 +308,7 @@
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_2got94a" name="SendInProcessingMessage">
+  <bpmn:message id="Message_2got94a" name="SendInProcessMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
@@ -376,7 +376,7 @@
       <bpmndi:BPMNShape id="Event_1jpwsof_di" bpmnElement="Event_1jpwsof">
         <dc:Bounds x="432" y="322" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="410" y="284.5" width="79" height="27" />
+          <dc:Bounds x="410" y="366" width="79" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1mrcro9_di" bpmnElement="Activity_1mrcro9">
@@ -552,13 +552,6 @@
         <di:waypoint x="770" y="210" />
         <di:waypoint x="770" y="655" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0xp7rqh_di" bpmnElement="Flow_0xp7rqh">
-        <di:waypoint x="795" y="680" />
-        <di:waypoint x="820" y="680" />
-        <di:waypoint x="820" y="140" />
-        <di:waypoint x="320" y="140" />
-        <di:waypoint x="320" y="185" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1usyz3a_di" bpmnElement="Flow_1usyz3a">
         <di:waypoint x="320" y="235" />
         <di:waypoint x="320" y="1310" />
@@ -567,6 +560,13 @@
       <bpmndi:BPMNEdge id="Flow_0bmayfg_di" bpmnElement="Flow_0bmayfg">
         <di:waypoint x="468" y="1310" />
         <di:waypoint x="582" y="1310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xp7rqh_di" bpmnElement="Flow_0xp7rqh">
+        <di:waypoint x="795" y="680" />
+        <di:waypoint x="820" y="680" />
+        <di:waypoint x="820" y="140" />
+        <di:waypoint x="320" y="140" />
+        <di:waypoint x="320" y="185" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
