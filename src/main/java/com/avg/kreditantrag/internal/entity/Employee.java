@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-@SuppressWarnings("unused") // Used for de-/serialization and for Lombok
+@SuppressWarnings({"unused", "SpellCheckingInspection"}) // Used for de-/serialization and for Lombok
 public final class Employee {
     private int id;
     private String prename;

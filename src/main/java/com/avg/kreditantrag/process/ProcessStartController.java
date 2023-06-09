@@ -20,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/")
+@SuppressWarnings("SpellCheckingInspection")
 public class ProcessStartController {
     public static long mailSystemInstanceId;
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);

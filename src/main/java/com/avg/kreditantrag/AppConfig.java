@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
  * A configuration class with bean methods.
  */
 @Configuration
+@SuppressWarnings("SpellCheckingInspection")
 public class AppConfig {
     
     @Value("${zeebe.client.cloud.region}")

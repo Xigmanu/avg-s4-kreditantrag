@@ -19,7 +19,9 @@ public class VerificationHandler {
 
     @JobWorker(type = "verification-code-check")
     public void handleVerificationCodeCheck(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
         Map<String, Object> vars = job.getVariablesAsMap();
 
         String verificationCode = vars.get("verificationCode").toString();
@@ -30,13 +32,17 @@ public class VerificationHandler {
                 break;
             }
         }
-        LOGGER.info("Compare: ref={} with in={}", verificationCode, userCode);
+        LOGGER.debug("Assert that ref=[{}], in=[{}] are equal", verificationCode, userCode);
 
         if (!Objects.equals(verificationCode, userCode)) {
+            LOGGER.info("Assertion failed");
             client.newThrowErrorCommand(job)
                     .errorCode("verification_failed")
                     .errorMessage("Verification failed")
                     .send();
         }
+
+        LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
 }

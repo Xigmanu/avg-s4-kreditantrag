@@ -15,8 +15,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static com.avg.kreditantrag.handler.HandlerConstants.APPROVAL_EMAIL_MESSAGE;
+import static com.avg.kreditantrag.handler.HandlerConstants.AUTO_APPROVAL_EMAIL_MESSAGE;
+import static com.avg.kreditantrag.handler.HandlerConstants.CONFIRMATION_EMAIL_MESSAGE;
+import static com.avg.kreditantrag.handler.HandlerConstants.EMAIL_TO_MANAGER_MESSAGE;
+import static com.avg.kreditantrag.handler.HandlerConstants.IN_PROCESS_EMAIL_MESSAGE;
+import static com.avg.kreditantrag.handler.HandlerConstants.MESSAGE_CORRELATION_KEY;
+import static com.avg.kreditantrag.handler.HandlerConstants.NOTIFY_THE_MANAGER_MESSAGE;
+import static com.avg.kreditantrag.handler.HandlerConstants.REJECTION_EMAIL_MESSAGE;
+import static com.avg.kreditantrag.handler.HandlerConstants.TIMEOUT_EMAIL_MESSAGE;
+import static com.avg.kreditantrag.handler.HandlerConstants.VERIFICATION_EMAIL_MESSAGE;
+
 @Component
-@SuppressWarnings("unused")
+@SuppressWarnings({"Duplicates", "unused", "SpellCheckingInspection"})
 public class MessageTaskHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
     private final ZeebeClient zeebeClient;
@@ -28,40 +39,52 @@ public class MessageTaskHandler {
 
     @JobWorker(type = "send-verification-email-message")
     public Map<String, Object> handleSendEmailMessageStart(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+        LOGGER.debug("Get the correlation key from task: type=[{}]", job.getType());
+        final String empId = job
+                .getVariablesAsMap()
+                .get(MESSAGE_CORRELATION_KEY)
+                .toString();
 
-        final String messageName = "SendVerificationEmailMessage";
+        LOGGER.debug("Get variables map from the task: type=[{}]", job.getType());
         final Map<String, Object> vars = job.getVariablesAsMap();
 
+        LOGGER.debug("Generate a new verification code");
         int verificationCode = new Random().nextInt(100_000, 999_999);
-        LOGGER.debug("Generated verification code");
-        final String empId = vars.get("empId").toString();
 
         vars.put("verificationCode", verificationCode);
 
-        LOGGER.info("Sending a message: name={}", messageName);
-        LOGGER.error("CODE = {}", verificationCode);
-//        zeebeClient
-//                .newPublishMessageCommand()
-//                .messageName(messageName)
-//                .correlationKey(empId)
-//                .variables(
-//                        Map.of("empId", empId,
-//                                "prename", vars.get("prename"),
-//                                "email", vars.get("email"),
-//                                "verificationCode", verificationCode)
-//                )
-//                .send()
-//                .join();
+        LOGGER.info("Sending a message: name={}", VERIFICATION_EMAIL_MESSAGE);
+        zeebeClient
+                .newPublishMessageCommand()
+                .messageName(VERIFICATION_EMAIL_MESSAGE)
+                .correlationKey(empId)
+                .variables(
+                        Map.of("empId", empId,
+                                "prename", vars.get("prename"),
+                                "email", vars.get("email"),
+                                "verificationCode", verificationCode)
+                )
+                .send()
+                .join();
 
-        LOGGER.info("End handling job={}", job.getType());
+        LOGGER.info("Exit Handling job: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
         return vars;
     }
 
     @JobWorker(type = "notify-manager-message")
     public void handleNotifyManagerMessage(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
-        String messageName = "CallTheManagerMessage";
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+        LOGGER.debug("Get the correlation key from task: type=[{}]", job.getType());
+        final String key = job
+                .getVariablesAsMap()
+                .get(MESSAGE_CORRELATION_KEY)
+                .toString();
+
         Map<String, Object> vars = job.getVariablesAsMap();
         Map<String, Object> out = new HashMap<>();
 
@@ -74,81 +97,119 @@ public class MessageTaskHandler {
 
         zeebeClient
                 .newPublishMessageCommand()
-                .messageName(messageName)
-                .correlationKey(out.get("empId").toString())
+                .messageName(NOTIFY_THE_MANAGER_MESSAGE)
+                .correlationKey(key)
                 .variables(out)
                 .send()
                 .join();
 
-        LOGGER.info("End handling job={}", job.getType());
+        LOGGER.info("Exit Handling job: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
 
     @JobWorker(type = "send-email-to-manager")
     public void handleSendEmailToTheManager(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
-//        Map<String, Object> vars = job.getVariablesAsMap();
-//        Map<String, Object> out = new HashMap<>();
-//        out.put("surname", vars.get("surname"));
-//
-//        zeebeClient
-//                .newPublishMessageCommand()
-//                .messageName("SendMessageToManager")
-//                .correlationKey(vars.get("empId").toString())
-//                .variables(out)
-//                .send()
-//                .join();
-        LOGGER.info("End handling job={}", job.getType());
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+        LOGGER.debug("Get the correlation key from task: type=[{}]", job.getType());
+        final String key = job
+                .getVariablesAsMap()
+                .get(MESSAGE_CORRELATION_KEY)
+                .toString();
+
+        Map<String, Object> vars = job.getVariablesAsMap();
+        Map<String, Object> out = new HashMap<>();
+        out.put("surname", vars.get("surname"));
+
+        zeebeClient
+                .newPublishMessageCommand()
+                .messageName(EMAIL_TO_MANAGER_MESSAGE)
+                .correlationKey(key)
+                .variables(out)
+                .send()
+                .join();
+
+        LOGGER.info("Exit Handling job: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
 
-    @JobWorker(type = "send-approval-email")
+    @JobWorker(type = "send-manual-approval-email")
     public void handleSendApprovalEmail(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
-        sendSimpleMessage(job, "SendApprovalMessage");
-        LOGGER.info("End handling job={}", job.getType());
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
+        sendSimpleMessage(job, APPROVAL_EMAIL_MESSAGE);
+
+        LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
-    @JobWorker(type = "send-rejection-email")
+    @JobWorker(type = "send-manual-rejection-email")
     public void handleSendRejectionEmail(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
-        sendSimpleMessage(job, "SendRejectionMessage");
-        LOGGER.info("End handling job={}", job.getType());
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
+        sendSimpleMessage(job, REJECTION_EMAIL_MESSAGE);
+
+        LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
 
     @JobWorker(type = "send-in-process-email")
-    public void handleSendInProcessMessage(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
-        sendSimpleMessage(job, "SendInProcessMessage");
-        LOGGER.info("End handling job={}", job.getType());
+    public void handleSendInProcessEmail(JobClient client, ActivatedJob job) {
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
+        sendSimpleMessage(job, IN_PROCESS_EMAIL_MESSAGE);
+
+        LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
 
-    @JobWorker(type = "send-resubmission-request-message")
+    @JobWorker(type = "send-resubmission-request-email")
     public void handleSendResubmissionRequestMessage(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
-        sendSimpleMessage(job, "SendTimeoutMessage");
-        LOGGER.info("End handling job={}", job.getType());
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
+        sendSimpleMessage(job, TIMEOUT_EMAIL_MESSAGE);
+
+        LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
 
-    @JobWorker(type = "send-confirmation-message")
+    @JobWorker(type = "send-confirmation-email")
     public void handleSendConfirmationEmail(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
-        sendSimpleMessage(job, "SendConfirmationEmailMessage");
-        LOGGER.info("End handling job={}", job.getType());
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
+        sendSimpleMessage(job, CONFIRMATION_EMAIL_MESSAGE);
+
+        LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
 
-    @JobWorker(type = "auto-approval-email")
+    @JobWorker(type = "send-auto-approval-email")
     public void handleAutoApprovalMessage(JobClient client, ActivatedJob job) {
-        LOGGER.info("Start handling job={}", job.getType());
-        sendSimpleMessage(job, "SendAutoApprovalEmailMessage");
-        LOGGER.info("End handling job={}", job.getType());
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
+        sendSimpleMessage(job, AUTO_APPROVAL_EMAIL_MESSAGE);
+
+        LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
     }
 
     private void sendSimpleMessage(ActivatedJob job, String messageName) {
-        final String empId = job.getVariablesAsMap().get("empId").toString();
-        LOGGER.error("MEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSAAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGGGEEEEEEEEEEEEEEEEEE");
-//        zeebeClient
-//                .newPublishMessageCommand()
-//                .messageName(messageName)
-//                .correlationKey(empId)
-//                .send();
+        LOGGER.debug("Get the correlation key from task: type=[{}]", job.getType());
+        final String key = job
+                .getVariablesAsMap()
+                .get(MESSAGE_CORRELATION_KEY)
+                .toString();
+
+        zeebeClient
+                .newPublishMessageCommand()
+                .messageName(messageName)
+                .correlationKey(key)
+                .send();
 
     }
 }

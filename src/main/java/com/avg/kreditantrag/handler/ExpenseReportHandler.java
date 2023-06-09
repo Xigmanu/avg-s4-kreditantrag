@@ -30,6 +30,9 @@ public class ExpenseReportHandler {
 
     @JobWorker(type = "expense-report-get-count")
     public Map<String, Object> handleExpenseReportGetCount(JobClient client, ActivatedJob job) {
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
         final Map<String, Object> vars = job.getVariablesAsMap();
         final int empId = Integer.parseInt(vars.get("empId").toString());
         final List<ExpenseReport> expenseReports = expenseReportController.getReportsForEmployee(empId);
@@ -37,11 +40,16 @@ public class ExpenseReportHandler {
 
         out.put("reportCount", (long) expenseReports.size());
 
+        LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
         return out;
     }
 
     @JobWorker(type = "expense-report-save")
     public void handleExpenseReportCreate(JobClient client, ActivatedJob job) {
+        LOGGER.info("Handling task: type=[{}], bpmnProcessId=[{}]",
+                job.getType(), job.getBpmnProcessId());
+
         final Map<String, Object> vars = job.getVariablesAsMap();
 
         final ExpenseReport newReport = ExpenseReport.builder()
@@ -53,7 +61,9 @@ public class ExpenseReportHandler {
                 .build();
 
         if (expenseReportController.create(newReport) == HttpStatus.CREATED) {
-            LOGGER.info("Successfully created a new employee");
+            LOGGER.info("Successfully created a new expense report");
+            LOGGER.info("Exit task handler: type=[{}], bpmnProcessId=[{}]",
+                    job.getType(), job.getBpmnProcessId());
             return;
         }
 
