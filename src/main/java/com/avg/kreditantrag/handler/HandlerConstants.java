@@ -19,5 +19,6 @@ public class HandlerConstants {
     public static final String AUTO_APPROVAL_EMAIL_MESSAGE = "AutoApprovalEmailMessage";
 
     /*-----------------------------------NOTIFICATION-----------------------------------*/
-    public static final String NOTIFY_THE_MANAGER_MESSAGE = "NotifyTheManagerMessage"; // notify-manager-message
+    public static final String NOTIFY_THE_MANAGER_MESSAGE = "NotifyTheManagerMessage";
+    public static final String EMAIL_ERROR_TO_MANAGER_MESSAGE = "EmailErrorToManagerMessage";
 }

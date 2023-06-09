@@ -39,7 +39,7 @@ public class EmployeeController {
      * @param id id of an employee
      * @return an instance of {@code Employee} class on success, else {@code null}
      */
-    public Employee getById(int id) {
+    public Employee getById(int id) throws IOException {
         LOGGER.info("EmployeeController: getById: id={}", id);
         try {
             Response response = service.getById(id);
@@ -54,7 +54,7 @@ public class EmployeeController {
         } catch (IOException ioe) {
             LOGGER.error("EmployeeController: getById: An exception of type [{}] was thrown. Message={}",
                     ioe.getClass().getSimpleName(), ioe.getMessage());
-            return null;
+            throw ioe;
         }
     }
 
