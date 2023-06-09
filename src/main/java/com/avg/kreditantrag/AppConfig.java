@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
 
 /**
  * A configuration class with bean methods.
@@ -36,6 +37,7 @@ public class AppConfig {
      */
     @Bean
     @Profile("cloud")
+    @Scope("singleton")
     public ZeebeClientBuilder zeebeClientBuilderCloud() {
         return ZeebeClient.newCloudClientBuilder()
                 .withClusterId(clusterId)
@@ -52,6 +54,7 @@ public class AppConfig {
      */
     @Bean
     @Profile("self-managed")
+    @Scope("singleton")
     public ZeebeClientBuilder zeebeClientBuilderLocal() {
         return ZeebeClient.newClientBuilder()
                 .gatewayAddress(gatewayAddress)
