@@ -21,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/")
 public class ProcessStartController {
+    public static long mailSystemInstanceId;
     private static final Logger LOGGER = LoggerFactory.getLogger(KreditantragApplication.class);
     private final ZeebeClient client;
 
@@ -45,11 +46,13 @@ public class ProcessStartController {
                 processInstanceEvent.getProcessInstanceKey(),
                 processInstanceEvent.getBpmnProcessId());
 
-        client.newCreateInstanceCommand()
-                .bpmnProcessId("system-intern")
+        ProcessInstanceEvent mailInstance = client.newCreateInstanceCommand()
+                .bpmnProcessId("system-mail")
                 .latestVersion()
                 .variables(variables)
                 .send()
                 .join();
+
+        mailSystemInstanceId = mailInstance.getProcessInstanceKey();
     }
 }
