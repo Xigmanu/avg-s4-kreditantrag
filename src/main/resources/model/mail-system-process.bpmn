@@ -288,47 +288,47 @@
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_0xp7rqh" sourceRef="Gateway_0rzlfbw" targetRef="Gateway_1lsi6ox" />
   </bpmn:process>
-  <bpmn:message id="Message_1cpda4t" name="SendVerificationEmailMessage">
+  <bpmn:message id="Message_1cpda4t" name="VerificationEmailMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_1hbbvrm" name="SendConfirmationEmailMessage">
+  <bpmn:message id="Message_1hbbvrm" name="ConfirmationEmailMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_31fu9qe" name="SendAutoApprovalEmailMessage">
+  <bpmn:message id="Message_31fu9qe" name="AutoApprovalEmailMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_212l5cp" name="SendMessageToManager">
+  <bpmn:message id="Message_212l5cp" name="EmailToManagerMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_2got94a" name="SendInProcessMessage">
+  <bpmn:message id="Message_2got94a" name="InProcessEmailMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_0k4tntf" name="SendTimeoutMessage">
+  <bpmn:message id="Message_0k4tntf" name="TimeoutEmailMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_09ltvht" name="SendApprovalMessage">
+  <bpmn:message id="Message_09ltvht" name="ApprovalEmailMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_00e8kgt" name="SendRejectionMessage">
+  <bpmn:message id="Message_00e8kgt" name="RejectionEmailMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>
   </bpmn:message>
-  <bpmn:message id="Message_23i9cqu" name="TerminateMailService">
+  <bpmn:message id="Message_23i9cqu" name="TerminateMailServiceMessage">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=empId" />
     </bpmn:extensionElements>

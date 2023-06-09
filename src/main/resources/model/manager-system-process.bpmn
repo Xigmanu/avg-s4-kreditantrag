@@ -108,7 +108,7 @@
     </bpmn:sendTask>
     <bpmn:sendTask id="Activity_1bk3rcw" name="Eine Genehmigungs-E-Mail senden">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="send-approval-email" />
+        <zeebe:taskDefinition type="send-manual-approval-email" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1rtag7f</bpmn:incoming>
       <bpmn:outgoing>Flow_0tlf941</bpmn:outgoing>
@@ -127,7 +127,7 @@
     </bpmn:serviceTask>
     <bpmn:sendTask id="Activity_0dkxsq9" name="Eine Ablehnungs-E-Mail senden">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="send-rejection-email" />
+        <zeebe:taskDefinition type="send-manual-rejection-email" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1qkii9p</bpmn:incoming>
       <bpmn:outgoing>Flow_0ja5grf</bpmn:outgoing>
@@ -149,14 +149,14 @@
     <bpmn:sequenceFlow id="Flow_0boxo9q" sourceRef="Event_1j87krb" targetRef="Activity_1u2ebwl" />
     <bpmn:sendTask id="Activity_1u2ebwl" name="Anfrage zur Wiedereinreichung">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="send-resubmission-request-message" />
+        <zeebe:taskDefinition type="send-resubmission-request-email" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0boxo9q</bpmn:incoming>
       <bpmn:outgoing>Flow_0h3828e</bpmn:outgoing>
     </bpmn:sendTask>
     <bpmn:sendTask id="Activity_1q841en" name="&#34;In Bearbeitung&#34; senden">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="send-in-process-message" />
+        <zeebe:taskDefinition type="send-in-process-email" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_17nn9h2</bpmn:incoming>
     </bpmn:sendTask>
@@ -194,7 +194,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approved = "true"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
   </bpmn:process>
-  <bpmn:message id="Message_20933ac" name="CallTheManagerMessage" />
+  <bpmn:message id="Message_20933ac" name="NotifyTheManagerMessage" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0qhl7bf">
       <bpmndi:BPMNShape id="Participant_169s591_di" bpmnElement="Participant_169s591" isHorizontal="true">
