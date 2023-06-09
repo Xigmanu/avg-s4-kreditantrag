@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<meta charset="UTF-8">
+<head>
+  <title>Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333333;
+      margin-top: 50px;
+    }
+
+    #timestamp {
+      color: #999999;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<h1>Ihr Antrag wurde erfolgreich gesendet</h1>
+<div id="timestamp">
+  <script>
+    const now = new Date();
+    const timestamp = now.toLocaleString();
+    document.write(timestamp);
+  </script>
+</div>
+</body>
+</html>
